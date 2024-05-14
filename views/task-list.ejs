@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+</head>
+<body>
+    <%- include('partials/navigation') %>
+    <h1>Task List</h1>
+    <ul>
+        <% if(tasks.length > 0) { %>
+            <% tasks.forEach(task => { %>
+                <li>
+                    <%= task.description %> - <%= task.deadline %>
+                    <form action="/tasks/<%= task.id %>/delete" method="POST" style="display:inline;">
+                        <button type="submit">Delete</button>
+                    </form>
+                    <form action="/tasks/<%= task.id %>/edit" method="GET" style="display:inline;">
+                        <button type="submit">Edit</button>
+                    </form>
+                </li>
+            <% }); %>
+        <% } else { %>
+            <p>No tasks have been found</p>
+        <% } %>
+    </ul>
+</body>
+</html>
