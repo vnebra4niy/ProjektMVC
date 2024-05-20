@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Error</title>
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <%- include('partials/navigation') %>
-    <h1><%= message %></h1>
-    <p>Sorry, the page you requested could not be found.</p>
+    <div class="container">
+        <%- include('partials/navigation') %>
+        <h1><%= message %></h1>
+        <p>Sorry, the page you requested could not be found.</p>
+    </div>
 </body>
 </html>
