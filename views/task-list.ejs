@@ -13,20 +13,27 @@
         <ul>
             <% if(tasks.length > 0) { %>
                 <% tasks.forEach(task => { %>
-                    <li>
-                        <%= task.description %> - <%= task.deadline %> - <%= task.status %>
-                        <form action="/tasks/<%= task.id %>/delete" method="POST" style="display:inline;">
-                            <button type="submit">Delete</button>
-                        </form>
-                        <form action="/tasks/<%= task.id %>/edit" method="GET" style="display:inline;">
-                            <button type="submit">Edit</button>
-                        </form>
-                        <form action="/tasks/<%= task.id %>/status/In%20progress" method="POST" style="display:inline;">
-                            <button type="submit">In Progress</button>
-                        </form>
-                        <form action="/tasks/<%= task.id %>/status/Completed" method="POST" style="display:inline;">
-                            <button type="submit">Completed</button>
-                        </form>
+                    <li class="task-item">
+                        <div>
+                            <span><%= task.description %></span>
+                            <span> - </span>
+                            <span><%= task.deadline %></span>
+                            <span class="status">(<%= task.status %>)</span>
+                        </div>
+                        <div>
+                            <form action="/tasks/<%= task.id %>/delete" method="POST" style="display:inline;">
+                                <button type="submit">Delete</button>
+                            </form>
+                            <form action="/tasks/<%= task.id %>/edit" method="GET" style="display:inline;">
+                                <button type="submit">Edit</button>
+                            </form>
+                            <form action="/tasks/<%= task.id %>/status/In%20progress" method="POST" style="display:inline;">
+                                <button type="submit">In Progress</button>
+                            </form>
+                            <form action="/tasks/<%= task.id %>/status/Completed" method="POST" style="display:inline;">
+                                <button type="submit">Completed</button>
+                            </form>
+                        </div>
                     </li>
                 <% }); %>
             <% } else { %>

@@ -5,12 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Task</title>
     <link rel="stylesheet" href="/styles.css">
+    <script>
+        function validateForm() {
+            const description = document.getElementById('description').value;
+            const deadline = document.getElementById('deadline').value;
+            if (!description || !deadline) {
+                alert('Description and deadline are required');
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
     <div class="container">
         <%- include('partials/navigation') %>
         <h1>Add Task</h1>
-        <form action="/tasks/add" method="POST">
+        <form action="/tasks/add" method="POST" onsubmit="return validateForm()">
             <label for="description">Description:</label>
             <input type="text" id="description" name="description" required>
             <label for="deadline">Deadline:</label>

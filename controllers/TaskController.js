@@ -3,48 +3,73 @@ const Task = require('../models/Task');
 let tasks = [];
 
 exports.addTask = (req, res) => {
-    const { description, deadline } = req.body;
-    const newTask = new Task(description, deadline);
-    tasks.push(newTask);
-    res.redirect('/tasks/list');
+    try {
+        const { description, deadline } = req.body;
+        const newTask = new Task(description, deadline);
+        newTask.validate();
+        tasks.push(newTask);
+        res.redirect('/tasks/list');
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
 };
 
 exports.deleteTask = (req, res) => {
     const { id } = req.params;
+    const initialLength = tasks.length;
     tasks = tasks.filter(task => task.id !== id);
+
+    if (tasks.length === initialLength) {
+        return res.status(404).send('Task not found');
+    }
+
     res.redirect('/tasks/list');
 };
 
 exports.editTask = (req, res) => {
-    const { id } = req.params;
-    const { description, deadline } = req.body;
-    const taskIndex = tasks.findIndex(task => task.id === id);
-    if (taskIndex === -1) {
-        res.status(404).send('Task not found');
-    } else {
-        tasks[taskIndex].description = description;
-        tasks[taskIndex].deadline = deadline;
+    try {
+        const { id } = req.params;
+        const { description, deadline } = req.body;
+        const task = tasks.find(task => task.id === id);
+
+        if (!task) {
+            return res.status(404).send('Task not found');
+        }
+
+        task.update(description, deadline);
+        task.validate();
         res.redirect('/tasks/list');
+    } catch (error) {
+        res.status(400).send(error.message);
     }
 };
 
 exports.updateTaskStatus = (req, res) => {
     const { id, status } = req.params;
     const task = tasks.find(task => task.id === id);
-    if (task) {
-        task.status = status;
+
+    if (!task) {
+        return res.status(404).send('Task not found');
     }
-    res.redirect('/tasks/list');
+
+    try {
+        task.updateStatus(status);
+        task.validate();
+        res.redirect('/tasks/list');
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
 };
 
 exports.renderEditTaskForm = (req, res) => {
     const { id } = req.params;
     const task = tasks.find(task => task.id === id);
+
     if (!task) {
-        res.status(404).send('Task not found');
-    } else {
-        res.render('edit-task', { task });
+        return res.status(404).send('Task not found');
     }
+
+    res.render('edit-task', { task });
 };
 
 exports.getAllTasks = () => {
