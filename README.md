@@ -39,7 +39,7 @@ Task Manager to aplikacja internetowa do zarządzania zadaniami. Umożliwia uży
     npm start
 
 2. Otwórz przeglądarkę i przejdź do adresu:
-    http://localhost:3000
+    http://localhost:3000/tasks/list
 
 ## Technologie
 
